@@ -1,0 +1,95 @@
+{% extends 'layout.html' %}
+{% block body %} 
+
+    <div class="langcontainer">
+      <h2 class="hdngs">Choose Your Language</h2>
+          <button onclick="handleButtonClick('kannada')" class='btn btn-outline-secondary btn-lg'>&nbsp; ಕನ್ನಡ &nbsp;</button>
+          <button onclick="handleButtonClick('hindi')" class='btn btn-outline-secondary btn-lg'>&nbsp;&nbsp; हिंदी &nbsp;&nbsp;</button>
+          <button onclick="handleButtonClick('telugu')" class='btn btn-outline-secondary btn-lg'>&nbsp;తెలుగు&nbsp;</button>
+          <button onclick="handleButtonClick('malyalam')" class='btn btn-outline-secondary btn-lg'>&nbsp;മലയാളം&nbsp;</button>
+          <button onclick="handleButtonClick('tamil')" class='btn btn-outline-secondary btn-lg'>&nbsp;தமிழ்&nbsp;</button>
+          <button onclick="handleButtonClick('bengali')" class='btn btn-outline-secondary btn-lg'>&nbsp;বাঙ্গালি&nbsp;</button>
+          <button onclick="handleButtonClick('marathi')" class='btn btn-outline-secondary btn-lg'>&nbsp;मराठी&nbsp;</button>
+          <button onclick="handleButtonClick('gujarati')" class='btn btn-outline-secondary btn-lg'>&nbsp;ગુજરાતી&nbsp;</button>
+    </div>
+
+
+    <div class="formip">
+      <div class="inputs col-lg-12">
+        <form id="labnol" method="post" action="/">
+          <div class="speech col-lg-12 ">
+            <input type="hidden" name="language" id="language" >
+            <textarea type="text" class="testarea col-lg-12 col-sm-12" name="s" id="transcript"
+              placeholder="Say Something" rows="5" cols="10"></textarea>
+            <!-- <img onclick="startDictation()" width="30px" src="#" /> -->
+          </div>
+          <div class="mic col-lg-12">
+            <button type="button" class=" btn  btn-outline-secondary btn-lg" value="ask" onclick="startDictation()"><i
+                class="fa-solid fa-microphone"></i> </button>
+          </div>
+          <!-- <p>Click the mic</p> -->
+        </form>
+      </div>
+    </div>
+
+  <script type="text/javascript">
+
+    (() => {
+      'use strict'
+
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      const forms = document.querySelectorAll('.needs-validation')
+      // Loop over them and prevent submission
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+    })()
+
+    let langCode = 'en'
+    function handleButtonClick(buttonValue) {
+
+      const obj = { 'kannada': 'kn', 'english': 'en', 'hindi': 'hi', 'telugu': 'te', 'malyalam': 'ml', 'tamil': 'ta', 'bengali': 'bn', 'gujarati': 'gu', 'marathi': 'mr', 'urdu': 'ur' }
+      // You can perform any action with the button value here
+      // const BV =  buttonValue
+      langCode = obj[buttonValue]
+      document.getElementById("language").value = langCode;
+      // alert("Button clicked with value: " + langCode);
+
+      // Example: Sending the value to another function
+      // processButtonValue(buttonValue);
+    }
+    // function processButtonValue(value) {
+    //     // This is a placeholder function, you can replace it with your logic
+    //     alert("Processing button value: " + value);
+    //     // Add your logic here to handle the button value as needed
+    // }
+    function startDictation() {
+      if (window.hasOwnProperty('webkitSpeechRecognition')) {
+        var recognition = new webkitSpeechRecognition();
+
+        let resultlangcode = langCode.concat('-IN');
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = resultlangcode;
+        recognition.start();
+
+        recognition.onresult = function (e) {
+          document.getElementById('transcript').value = e.results[0][0].transcript;
+          recognition.stop();
+          document.getElementById('labnol').submit();
+        };
+        recognition.onerror = function (e) {
+          recognition.stop();
+        };
+      }
+    }
+  </script>
+
+{% endblock%}
