@@ -17,10 +17,9 @@ This project is a health-focused voice assistant built using Python and Flask, a
 
 
 🚀 Tech Stack
-Technology	Description
-Python	Core programming language
-Flask	Backend web framework
-HTML & CSS	Frontend UI design
-JavaScript	For handling frontend interactions
-Speech Recognition / NLP	To process user voice input
-Custom lanhindi module	For handling multilingual AI logic
+Python-Core programming language
+Flask-Backend web framework
+HTML & CSS-Frontend UI design
+JavaScript-For handling frontend interactions
+Speech Recognition / NLP-To process user voice input
+Custom lanhindi module-For handling multilingual AI logic
